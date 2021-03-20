@@ -13,6 +13,7 @@
     "packages/*"
   ],
   "scripts": {
+    "postinstall": "yarn workspace @monorepo/graphql-server tsc -b --clean",
     "client": "yarn workspace @monorepo/next-app dev",
     "server": "yarn workspace @monorepo/graphql-server dev",
     "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
