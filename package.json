@@ -1,0 +1,24 @@
+{
+  "name": "@monorepo/root",
+  "private": true,
+  "useWorkspaces": true,
+  "version": "independent",
+  "devDependencies": {
+    "eslint": "^7.22.0",
+    "eslint-config-airbnb-typescript-prettier": "^4.1.0",
+    "prettier": "^2.2.1",
+    "rimraf": "^3.0.2"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "client": "yarn workspace @monorepo/next-app dev",
+    "server": "yarn workspace @monorepo/graphql-server dev",
+    "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
+    "clean": "rimraf **/dist && rimraf **/.next && rimraf **/node_modules"
+  },
+  "dependencies": {
+    "concurrently": "^6.0.0"
+  }
+}
