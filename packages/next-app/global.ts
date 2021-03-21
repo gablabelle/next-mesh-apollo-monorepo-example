@@ -6,6 +6,7 @@ let apolloServerHandler: (
   res: NextApiResponse,
 ) => Promise<void>;
 
+// eslint-disable-next-line import/prefer-default-export
 export async function getApolloServerHandler(
   req: NextApiRequest,
   res: NextApiResponse,
