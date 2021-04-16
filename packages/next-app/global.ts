@@ -1,18 +1,36 @@
+/* eslint-disable no-var */
+/* eslint-disable vars-on-top */
 import { NextApiRequest, NextApiResponse } from 'next';
 import createApolloServer from '@monorepo/graphql-server';
 
-let apolloServerHandler: (
+type ApolloServerHandlerType = (
   req: NextApiRequest,
   res: NextApiResponse,
 ) => Promise<void>;
+
+declare global {
+  // NOTE: This actually needs to be a "var", let/const won't work here.
+  var cachedApolloServerHandler: ApolloServerHandlerType;
+}
+
+const startApolloServer = async () => {
+  if (!global.cachedApolloServerHandler) {
+    const server = await createApolloServer();
+    global.cachedApolloServerHandler = server.createHandler({
+      path: '/api/graphql',
+    });
+  }
+};
 
 // eslint-disable-next-line import/prefer-default-export
 export async function getApolloServerHandler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  if (apolloServerHandler) return apolloServerHandler(req, res);
-  const server = await createApolloServer();
-  apolloServerHandler = server.createHandler({ path: '/api/graphql' });
-  return apolloServerHandler(req, res);
+  if (!global.cachedApolloServerHandler) {
+    await startApolloServer().catch((e) => {
+      console.error(e);
+    });
+  }
+  return global.cachedApolloServerHandler(req, res);
 }
