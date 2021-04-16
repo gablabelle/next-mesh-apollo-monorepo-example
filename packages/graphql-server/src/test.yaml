@@ -68,12 +68,15 @@ components:
           type: string
         type:
           $ref: '#/components/schemas/v5_approvalRequest_approvalRequestType'
+        type2:
+          $ref: '#/components/schemas/v5_approvalRequest_approvalRequestType'
         submissionTimestamp:
           type: string
           format: date-time
       required:
         - id
         - type
+        - type2
         - submissionTimestamp
     v5_approvalRequest_approvalRequestType:
       title: Approval Request Type

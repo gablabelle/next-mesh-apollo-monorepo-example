@@ -16,6 +16,12 @@ export type Scalars = {
 
 export type Query = {
   /**
+   * ## Behavior
+   *
+   * Equivalent to GET /get-approval-request
+   */
+  getApprovalRequestV5?: Maybe<V5ApprovalRequestApprovalRequestGet>;
+  /**
    * List all pets
    *
    * Equivalent to GET /pets
@@ -43,12 +49,12 @@ export type Query = {
    * Equivalent to GET /pets
    */
   findPets?: Maybe<Array<Maybe<Pet>>>;
-  /**
-   * ## Behavior
-   *
-   * Equivalent to GET /get-approval-request
-   */
-  getApprovalRequestV5?: Maybe<V5ApprovalRequestApprovalRequestGet>;
+};
+
+
+export type QueryGetApprovalRequestV5Args = {
+  approvalRequestId: Scalars['String'];
+  employeeId: Scalars['String'];
 };
 
 
@@ -72,11 +78,29 @@ export type QueryFindPetsArgs = {
   tags?: Maybe<Array<Maybe<Scalars['String']>>>;
 };
 
-
-export type QueryGetApprovalRequestV5Args = {
-  approvalRequestId: Scalars['String'];
-  employeeId: Scalars['String'];
+export type V5ApprovalRequestApprovalRequestGet = {
+  id: Scalars['String'];
+  submissionTimestamp: Scalars['String'];
+  type2: V5ApprovalRequestApprovalRequestType;
 };
+
+export enum V5ApprovalRequestApprovalRequestType {
+  V4_SHIFT_OPEN = 'V4_SHIFT_OPEN',
+  V4_SHIFT_OFFER = 'V4_SHIFT_OFFER',
+  V4_SHIFT_CANCEL = 'V4_SHIFT_CANCEL',
+  V4_SHIFT_TRADE = 'V4_SHIFT_TRADE',
+  V4_AVAILABILITY_TIME_OFF = 'V4_AVAILABILITY_TIME_OFF',
+  V5_TIME_OFF = 'V5_TIME_OFF',
+  V5_AVAILABILITY = 'V5_AVAILABILITY',
+  V5_OPEN_SHIFT = 'V5_OPEN_SHIFT',
+  V5_SHIFT_DIRECT_OFFER = 'V5_SHIFT_DIRECT_OFFER',
+  V5_DIRECT_SWAP = 'V5_DIRECT_SWAP',
+  V5_DIRECT_RELEASE = 'V5_DIRECT_RELEASE',
+  V5_POOL_RELEASE = 'V5_POOL_RELEASE',
+  V5_POOL_SWAP = 'V5_POOL_SWAP',
+  V5_POOL_DUAL = 'V5_POOL_DUAL',
+  V5_BATCH_PUNCH_EDIT = 'V5_BATCH_PUNCH_EDIT'
+}
 
 export type Mutation = {
   /**
@@ -119,11 +143,6 @@ export type Pet = {
 export type NewPetInput = {
   name: Scalars['String'];
   tag?: Maybe<Scalars['String']>;
-};
-
-export type V5ApprovalRequestApprovalRequestGet = {
-  id: Scalars['String'];
-  submissionTimestamp: Scalars['String'];
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -206,37 +225,45 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
   Query: ResolverTypeWrapper<{}>;
+  V5ApprovalRequestApprovalRequestGet: ResolverTypeWrapper<V5ApprovalRequestApprovalRequestGet>;
+  String: ResolverTypeWrapper<Scalars['String']>;
+  V5ApprovalRequestApprovalRequestType: V5ApprovalRequestApprovalRequestType;
+  Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   Mutation: ResolverTypeWrapper<{}>;
   Pet: ResolverTypeWrapper<Pet>;
   Float: ResolverTypeWrapper<Scalars['Float']>;
-  String: ResolverTypeWrapper<Scalars['String']>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
   JSON: ResolverTypeWrapper<Scalars['JSON']>;
-  Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   NewPetInput: NewPetInput;
-  V5ApprovalRequestApprovalRequestGet: ResolverTypeWrapper<V5ApprovalRequestApprovalRequestGet>;
 }>;
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
   Query: {};
+  V5ApprovalRequestApprovalRequestGet: V5ApprovalRequestApprovalRequestGet;
+  String: Scalars['String'];
+  Boolean: Scalars['Boolean'];
   Mutation: {};
   Pet: Pet;
   Float: Scalars['Float'];
-  String: Scalars['String'];
   Int: Scalars['Int'];
   JSON: Scalars['JSON'];
-  Boolean: Scalars['Boolean'];
   NewPetInput: NewPetInput;
-  V5ApprovalRequestApprovalRequestGet: V5ApprovalRequestApprovalRequestGet;
 }>;
 
 export type QueryResolvers<ContextType = MeshContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
+  getApprovalRequestV5?: Resolver<Maybe<ResolversTypes['V5ApprovalRequestApprovalRequestGet']>, ParentType, ContextType, RequireFields<QueryGetApprovalRequestV5Args, 'approvalRequestId' | 'employeeId'>>;
   listPets?: Resolver<Maybe<Array<Maybe<ResolversTypes['Pet']>>>, ParentType, ContextType, RequireFields<QueryListPetsArgs, never>>;
   showPetById?: Resolver<Maybe<ResolversTypes['Pet']>, ParentType, ContextType, RequireFields<QueryShowPetByIdArgs, 'petId'>>;
   findPetById?: Resolver<Maybe<ResolversTypes['Pet']>, ParentType, ContextType, RequireFields<QueryFindPetByIdArgs, 'id'>>;
   findPets?: Resolver<Maybe<Array<Maybe<ResolversTypes['Pet']>>>, ParentType, ContextType, RequireFields<QueryFindPetsArgs, never>>;
-  getApprovalRequestV5?: Resolver<Maybe<ResolversTypes['V5ApprovalRequestApprovalRequestGet']>, ParentType, ContextType, RequireFields<QueryGetApprovalRequestV5Args, 'approvalRequestId' | 'employeeId'>>;
+}>;
+
+export type V5ApprovalRequestApprovalRequestGetResolvers<ContextType = MeshContext, ParentType extends ResolversParentTypes['V5ApprovalRequestApprovalRequestGet'] = ResolversParentTypes['V5ApprovalRequestApprovalRequestGet']> = ResolversObject<{
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  submissionTimestamp?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  type2?: Resolver<ResolversTypes['V5ApprovalRequestApprovalRequestType'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type MutationResolvers<ContextType = MeshContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
@@ -256,18 +283,12 @@ export interface JsonScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
   name: 'JSON';
 }
 
-export type V5ApprovalRequestApprovalRequestGetResolvers<ContextType = MeshContext, ParentType extends ResolversParentTypes['V5ApprovalRequestApprovalRequestGet'] = ResolversParentTypes['V5ApprovalRequestApprovalRequestGet']> = ResolversObject<{
-  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  submissionTimestamp?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
-
 export type Resolvers<ContextType = MeshContext> = ResolversObject<{
   Query?: QueryResolvers<ContextType>;
+  V5ApprovalRequestApprovalRequestGet?: V5ApprovalRequestApprovalRequestGetResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Pet?: PetResolvers<ContextType>;
   JSON?: GraphQLScalarType;
-  V5ApprovalRequestApprovalRequestGet?: V5ApprovalRequestApprovalRequestGetResolvers<ContextType>;
 }>;
 
 
@@ -278,6 +299,10 @@ export type Resolvers<ContextType = MeshContext> = ResolversObject<{
 export type IResolvers<ContextType = MeshContext> = Resolvers<ContextType>;
 
 import { MeshContext as BaseMeshContext, ProjectionOptions } from '@graphql-mesh/runtime';
+
+export type TestsSdk = {
+  getApprovalRequestV5: (args: QueryGetApprovalRequestV5Args, projectionOptions?: ProjectionOptions) => Promise<Query['getApprovalRequestV5']>
+};
 
 export type PetStoreSdk = {
   listPets: (args: QueryListPetsArgs, projectionOptions?: ProjectionOptions) => Promise<Query['listPets']>,
@@ -292,9 +317,9 @@ export type PetStoreExtendedSdk = {
   deletePet: (args: MutationDeletePetArgs, projectionOptions?: ProjectionOptions) => Promise<Mutation['deletePet']>
 };
 
-export type TestsSdk = {
-  getApprovalRequestV5: (args: QueryGetApprovalRequestV5Args, projectionOptions?: ProjectionOptions) => Promise<Query['getApprovalRequestV5']>
-};
+export type TestsContext = { 
+      Tests: { api: TestsSdk }, 
+    };
 
 export type PetStoreContext = { 
       PetStore: { api: PetStoreSdk }, 
@@ -304,8 +329,4 @@ export type PetStoreExtendedContext = {
       PetStoreExtended: { api: PetStoreExtendedSdk }, 
     };
 
-export type TestsContext = { 
-      Tests: { api: TestsSdk }, 
-    };
-
-export type MeshContext = PetStoreContext & PetStoreExtendedContext & TestsContext & BaseMeshContext;
+export type MeshContext = TestsContext & PetStoreContext & PetStoreExtendedContext & BaseMeshContext;
