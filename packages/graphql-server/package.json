@@ -10,7 +10,10 @@
   ],
   "scripts": {
     "dev": "tsc --build --watch --preserveWatchOutput",
-    "build": "tsc --build"
+    "build": "tsc --build",
+    "mesh:generate:schema": "graphql-mesh dump-schema --dir ./src/ --output ./src/generated/mesh.graphql",
+    "mesh:generate:json": "graphql-mesh dump-schema --dir ./src/ --output ./src/generated/mesh.json",
+    "mesh:generate:typings": "graphql-mesh typescript --dir ./src/ --output ./src/generated/mesh.ts"
   },
   "devDependencies": {
     "typescript": "^4.2.3"

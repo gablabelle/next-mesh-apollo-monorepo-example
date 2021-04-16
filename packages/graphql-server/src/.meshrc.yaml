@@ -9,3 +9,7 @@ sources:
       openapi:
         # source: https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/examples/v3.0/petstore-expanded.yaml
         source: petstore-expanded.yaml
+  - name: Tests
+    handler:
+      openapi:
+        source: test.yaml
