@@ -29,6 +29,7 @@ export async function getApolloServerHandler(
 ) {
   if (!global.cachedApolloServerHandler) {
     await startApolloServer().catch((e) => {
+      // eslint-disable-next-line no-console
       console.error(e);
     });
   }
