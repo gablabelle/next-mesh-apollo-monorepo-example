@@ -3,9 +3,17 @@ sources:
     handler:
       openapi:
         # source: https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/examples/v3.0/petstore.yaml
-        source: petstore.yaml
+        source: ./src/petstore.yaml
   - name: PetStoreExtended
     handler:
       openapi:
         # source: https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/examples/v3.0/petstore-expanded.yaml
-        source: petstore-expanded.yaml
+        source: ./src/petstore-expanded.yaml
+require:
+  - ts-node/register/transpile-only
+additionalTypeDefs: |
+  extend type Query {
+    getTrue: Boolean
+  }
+additionalResolvers:
+  - ./dist/additional-resolvers.js
