@@ -8,8 +8,8 @@ import ExternalModule_1 from '@graphql-mesh/cache-inmemory-lru';
 import ExternalModule_2 from './../dist/additional-resolvers.js';
 import ExternalModule_3 from '@graphql-mesh/openapi';
 import ExternalModule_4 from '@graphql-mesh/merger-stitching';
-import ExternalModule_5 from './sources/PetStore/oas-schema.js';
-import ExternalModule_6 from './sources/PetStoreExtended/oas-schema.js';
+import ExternalModule_5 from './sources/PetStoreExtended/oas-schema.js';
+import ExternalModule_6 from './sources/PetStore/oas-schema.js';
 const importedModules = {
     // @ts-ignore
     [`ts-node/register/transpile-only`]: ExternalModule_0,
@@ -22,9 +22,9 @@ const importedModules = {
     // @ts-ignore
     [`@graphql-mesh/merger-stitching`]: ExternalModule_4,
     // @ts-ignore
-    [`.mesh/sources/PetStore/oas-schema.js`]: ExternalModule_5,
+    [`.mesh/sources/PetStoreExtended/oas-schema.js`]: ExternalModule_5,
     // @ts-ignore
-    [`.mesh/sources/PetStoreExtended/oas-schema.js`]: ExternalModule_6
+    [`.mesh/sources/PetStore/oas-schema.js`]: ExternalModule_6
 };
 const baseDir = join(cwd(), '');
 const syncImportFn = (moduleId) => {

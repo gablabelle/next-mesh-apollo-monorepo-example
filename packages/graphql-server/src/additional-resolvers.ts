@@ -1,7 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 import { Resolvers } from '../.mesh';
 
-export const resolvers: Resolvers = {
+const resolvers: Resolvers = {
   // Your custom resolvers here
   Query: {
     getTrue: async () => {
@@ -9,3 +9,5 @@ export const resolvers: Resolvers = {
     },
   },
 };
+
+export default resolvers;

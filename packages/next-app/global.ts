@@ -16,6 +16,7 @@ declare global {
 const startApolloServer = async () => {
   if (!global.cachedApolloServerHandler) {
     const server = await createApolloServer();
+    await server.start();
     global.cachedApolloServerHandler = server.createHandler({
       path: '/api/graphql',
     });

@@ -28,18 +28,6 @@ export declare type Scalars = {
 };
 export declare type Query = {
     /**
-     * List all pets
-     *
-     * Equivalent to GET /pets
-     */
-    listPets?: Maybe<Array<Maybe<Pet>>>;
-    /**
-     * Info for a specific pet
-     *
-     * Equivalent to GET /pets/{petId}
-     */
-    showPetById?: Maybe<Pet>;
-    /**
      * Returns a user based on a single ID, if the user does not have access to the pet
      *
      * Equivalent to GET /pets/{id}
@@ -55,13 +43,19 @@ export declare type Query = {
      * Equivalent to GET /pets
      */
     findPets?: Maybe<Array<Maybe<Pet>>>;
+    /**
+     * List all pets
+     *
+     * Equivalent to GET /pets
+     */
+    listPets?: Maybe<Array<Maybe<Pet>>>;
+    /**
+     * Info for a specific pet
+     *
+     * Equivalent to GET /pets/{petId}
+     */
+    showPetById?: Maybe<Pet>;
     getTrue?: Maybe<Scalars['Boolean']>;
-};
-export declare type QuerylistPetsArgs = {
-    limit?: Maybe<Scalars['Int']>;
-};
-export declare type QueryshowPetByIdArgs = {
-    petId: Scalars['String'];
 };
 export declare type QueryfindPetByIdArgs = {
     id: Scalars['Float'];
@@ -70,13 +64,13 @@ export declare type QueryfindPetsArgs = {
     limit?: Maybe<Scalars['Int']>;
     tags?: Maybe<Array<Maybe<Scalars['String']>>>;
 };
+export declare type QuerylistPetsArgs = {
+    limit?: Maybe<Scalars['Int']>;
+};
+export declare type QueryshowPetByIdArgs = {
+    petId: Scalars['String'];
+};
 export declare type Mutation = {
-    /**
-     * Create a pet
-     *
-     * Equivalent to POST /pets
-     */
-    createPets?: Maybe<Scalars['JSON']>;
     /**
      * Creates a new pet in the store. Duplicates are allowed
      *
@@ -89,6 +83,12 @@ export declare type Mutation = {
      * Equivalent to DELETE /pets/{id}
      */
     deletePet?: Maybe<Scalars['JSON']>;
+    /**
+     * Create a pet
+     *
+     * Equivalent to POST /pets
+     */
+    createPets?: Maybe<Scalars['JSON']>;
 };
 export declare type MutationaddPetArgs = {
     newPetInput: NewPetInput;
@@ -150,9 +150,9 @@ export declare type ResolversTypes = ResolversObject<{
     Float: ResolverTypeWrapper<Scalars['Float']>;
     String: ResolverTypeWrapper<Scalars['String']>;
     Int: ResolverTypeWrapper<Scalars['Int']>;
+    NewPetInput: NewPetInput;
     JSON: ResolverTypeWrapper<Scalars['JSON']>;
     Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
-    NewPetInput: NewPetInput;
 }>;
 /** Mapping between all available schema types and the resolvers parents */
 export declare type ResolversParentTypes = ResolversObject<{
@@ -162,21 +162,21 @@ export declare type ResolversParentTypes = ResolversObject<{
     Float: Scalars['Float'];
     String: Scalars['String'];
     Int: Scalars['Int'];
+    NewPetInput: NewPetInput;
     JSON: Scalars['JSON'];
     Boolean: Scalars['Boolean'];
-    NewPetInput: NewPetInput;
 }>;
 export declare type QueryResolvers<ContextType = MeshContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
-    listPets?: Resolver<Maybe<Array<Maybe<ResolversTypes['Pet']>>>, ParentType, ContextType, RequireFields<QuerylistPetsArgs, never>>;
-    showPetById?: Resolver<Maybe<ResolversTypes['Pet']>, ParentType, ContextType, RequireFields<QueryshowPetByIdArgs, 'petId'>>;
     findPetById?: Resolver<Maybe<ResolversTypes['Pet']>, ParentType, ContextType, RequireFields<QueryfindPetByIdArgs, 'id'>>;
     findPets?: Resolver<Maybe<Array<Maybe<ResolversTypes['Pet']>>>, ParentType, ContextType, RequireFields<QueryfindPetsArgs, never>>;
+    listPets?: Resolver<Maybe<Array<Maybe<ResolversTypes['Pet']>>>, ParentType, ContextType, RequireFields<QuerylistPetsArgs, never>>;
+    showPetById?: Resolver<Maybe<ResolversTypes['Pet']>, ParentType, ContextType, RequireFields<QueryshowPetByIdArgs, 'petId'>>;
     getTrue?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
 }>;
 export declare type MutationResolvers<ContextType = MeshContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
-    createPets?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType>;
     addPet?: Resolver<Maybe<ResolversTypes['Pet']>, ParentType, ContextType, RequireFields<MutationaddPetArgs, 'newPetInput'>>;
     deletePet?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType, RequireFields<MutationdeletePetArgs, 'id'>>;
+    createPets?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType>;
 }>;
 export declare type PetResolvers<ContextType = MeshContext, ParentType extends ResolversParentTypes['Pet'] = ResolversParentTypes['Pet']> = ResolversObject<{
     id?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
@@ -195,32 +195,6 @@ export declare type Resolvers<ContextType = MeshContext> = ResolversObject<{
 }>;
 import { MeshContext as BaseMeshContext, MeshInstance } from '@graphql-mesh/runtime';
 import { SelectionSetParamOrFactory } from '@graphql-mesh/types';
-export declare type QueryPetStoreSdk = {
-    listPets: (params: {
-        root?: any;
-        args: QuerylistPetsArgs;
-        context: MeshContext;
-        info: GraphQLResolveInfo;
-        selectionSet?: SelectionSetParamOrFactory;
-    }) => Promise<Query['listPets']>;
-    showPetById: (params: {
-        root?: any;
-        args: QueryshowPetByIdArgs;
-        context: MeshContext;
-        info: GraphQLResolveInfo;
-        selectionSet?: SelectionSetParamOrFactory;
-    }) => Promise<Query['showPetById']>;
-};
-export declare type MutationPetStoreSdk = {
-    createPets: (params: {
-        root?: any;
-        args?: {};
-        context: MeshContext;
-        info: GraphQLResolveInfo;
-        selectionSet?: SelectionSetParamOrFactory;
-    }) => Promise<Mutation['createPets']>;
-};
-export declare type SubscriptionPetStoreSdk = {};
 export declare type QueryPetStoreExtendedSdk = {
     findPetById: (params: {
         root?: any;
@@ -254,13 +228,32 @@ export declare type MutationPetStoreExtendedSdk = {
     }) => Promise<Mutation['deletePet']>;
 };
 export declare type SubscriptionPetStoreExtendedSdk = {};
-export declare type PetStoreContext = {
-    ["PetStore"]: {
-        Query: QueryPetStoreSdk;
-        Mutation: MutationPetStoreSdk;
-        Subscription: SubscriptionPetStoreSdk;
-    };
+export declare type QueryPetStoreSdk = {
+    listPets: (params: {
+        root?: any;
+        args: QuerylistPetsArgs;
+        context: MeshContext;
+        info: GraphQLResolveInfo;
+        selectionSet?: SelectionSetParamOrFactory;
+    }) => Promise<Query['listPets']>;
+    showPetById: (params: {
+        root?: any;
+        args: QueryshowPetByIdArgs;
+        context: MeshContext;
+        info: GraphQLResolveInfo;
+        selectionSet?: SelectionSetParamOrFactory;
+    }) => Promise<Query['showPetById']>;
 };
+export declare type MutationPetStoreSdk = {
+    createPets: (params: {
+        root?: any;
+        args?: {};
+        context: MeshContext;
+        info: GraphQLResolveInfo;
+        selectionSet?: SelectionSetParamOrFactory;
+    }) => Promise<Mutation['createPets']>;
+};
+export declare type SubscriptionPetStoreSdk = {};
 export declare type PetStoreExtendedContext = {
     ["PetStoreExtended"]: {
         Query: QueryPetStoreExtendedSdk;
@@ -268,7 +261,14 @@ export declare type PetStoreExtendedContext = {
         Subscription: SubscriptionPetStoreExtendedSdk;
     };
 };
-export declare type MeshContext = PetStoreContext & PetStoreExtendedContext & BaseMeshContext;
+export declare type PetStoreContext = {
+    ["PetStore"]: {
+        Query: QueryPetStoreSdk;
+        Mutation: MutationPetStoreSdk;
+        Subscription: SubscriptionPetStoreSdk;
+    };
+};
+export declare type MeshContext = PetStoreExtendedContext & PetStoreContext & BaseMeshContext;
 import { GetMeshOptions } from '@graphql-mesh/runtime';
 import { YamlConfig } from '@graphql-mesh/types';
 import 'ts-node/register/transpile-only';

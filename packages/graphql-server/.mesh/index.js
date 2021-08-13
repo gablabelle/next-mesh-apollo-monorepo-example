@@ -12,8 +12,8 @@ const cache_inmemory_lru_1 = tslib_1.__importDefault(require("@graphql-mesh/cach
 const additional_resolvers_js_1 = tslib_1.__importDefault(require("./../dist/additional-resolvers.js"));
 const openapi_1 = tslib_1.__importDefault(require("@graphql-mesh/openapi"));
 const merger_stitching_1 = tslib_1.__importDefault(require("@graphql-mesh/merger-stitching"));
-const oas_schema_js_1 = tslib_1.__importDefault(require("./sources/PetStore/oas-schema.js"));
-const oas_schema_js_2 = tslib_1.__importDefault(require("./sources/PetStoreExtended/oas-schema.js"));
+const oas_schema_js_1 = tslib_1.__importDefault(require("./sources/PetStoreExtended/oas-schema.js"));
+const oas_schema_js_2 = tslib_1.__importDefault(require("./sources/PetStore/oas-schema.js"));
 const importedModules = {
     // @ts-ignore
     [`ts-node/register/transpile-only`]: transpile_only_1.default,
@@ -26,9 +26,9 @@ const importedModules = {
     // @ts-ignore
     [`@graphql-mesh/merger-stitching`]: merger_stitching_1.default,
     // @ts-ignore
-    [`.mesh/sources/PetStore/oas-schema.js`]: oas_schema_js_1.default,
+    [`.mesh/sources/PetStoreExtended/oas-schema.js`]: oas_schema_js_1.default,
     // @ts-ignore
-    [`.mesh/sources/PetStoreExtended/oas-schema.js`]: oas_schema_js_2.default
+    [`.mesh/sources/PetStore/oas-schema.js`]: oas_schema_js_2.default
 };
 const baseDir = path_1.join(process_1.cwd(), '');
 const syncImportFn = (moduleId) => {
