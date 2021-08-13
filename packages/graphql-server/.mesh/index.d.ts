@@ -55,6 +55,12 @@ export declare type Query = {
      * Equivalent to GET /pets/{petId}
      */
     showPetById?: Maybe<Pet>;
+    /**
+     * ## Behavior
+     *
+     * Equivalent to GET /auth/sso/integration/azure
+     */
+    authenticationSsoV4?: Maybe<Scalars['JSON']>;
     getTrue?: Maybe<Scalars['Boolean']>;
 };
 export declare type QueryfindPetByIdArgs = {
@@ -69,6 +75,10 @@ export declare type QuerylistPetsArgs = {
 };
 export declare type QueryshowPetByIdArgs = {
     petId: Scalars['String'];
+};
+export declare type QueryauthenticationSsoV4Args = {
+    acceptLanguage?: Maybe<Scalars['String']>;
+    xCorrelationId?: Maybe<Scalars['String']>;
 };
 export declare type Mutation = {
     /**
@@ -89,12 +99,24 @@ export declare type Mutation = {
      * Equivalent to POST /pets
      */
     createPets?: Maybe<Scalars['JSON']>;
+    /**
+     * ## Behavior
+     * TBD
+     *
+     * Equivalent to POST /auth/sso/integration/azure
+     */
+    loginV5SsoAzure?: Maybe<V5AuthSessionGet>;
 };
 export declare type MutationaddPetArgs = {
     newPetInput: NewPetInput;
 };
 export declare type MutationdeletePetArgs = {
     id: Scalars['Float'];
+};
+export declare type MutationloginV5SsoAzureArgs = {
+    acceptLanguage?: Maybe<Scalars['String']>;
+    authSsoIntegrationAzureInput?: Maybe<AuthSsoIntegrationAzureInput>;
+    xCorrelationId?: Maybe<Scalars['String']>;
 };
 export declare type Pet = {
     id: Scalars['Float'];
@@ -104,6 +126,22 @@ export declare type Pet = {
 export declare type NewPetInput = {
     name: Scalars['String'];
     tag?: Maybe<Scalars['String']>;
+};
+export declare type V5AuthSessionGet = {
+    correlationId?: Maybe<Scalars['String']>;
+    employers?: Maybe<Array<Maybe<Scalars['String']>>>;
+    firstLogin?: Maybe<Scalars['Boolean']>;
+    hasEmployers?: Maybe<Scalars['Boolean']>;
+    token?: Maybe<Scalars['String']>;
+    userId?: Maybe<Scalars['Float']>;
+    userRole?: Maybe<UserRole>;
+};
+export declare enum UserRole {
+    ROLE_USER = "ROLE_USER",
+    ROLE_ADMIN = "ROLE_ADMIN"
+}
+export declare type AuthSsoIntegrationAzureInput = {
+    clientSideToken: Scalars['String'];
 };
 export declare type WithIndex<TObject> = TObject & Record<string, any>;
 export declare type ResolversObject<TObject> = WithIndex<TObject>;
@@ -153,6 +191,9 @@ export declare type ResolversTypes = ResolversObject<{
     NewPetInput: NewPetInput;
     JSON: ResolverTypeWrapper<Scalars['JSON']>;
     Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
+    V5AuthSessionGet: ResolverTypeWrapper<V5AuthSessionGet>;
+    UserRole: UserRole;
+    AuthSsoIntegrationAzureInput: AuthSsoIntegrationAzureInput;
 }>;
 /** Mapping between all available schema types and the resolvers parents */
 export declare type ResolversParentTypes = ResolversObject<{
@@ -165,18 +206,22 @@ export declare type ResolversParentTypes = ResolversObject<{
     NewPetInput: NewPetInput;
     JSON: Scalars['JSON'];
     Boolean: Scalars['Boolean'];
+    V5AuthSessionGet: V5AuthSessionGet;
+    AuthSsoIntegrationAzureInput: AuthSsoIntegrationAzureInput;
 }>;
 export declare type QueryResolvers<ContextType = MeshContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
     findPetById?: Resolver<Maybe<ResolversTypes['Pet']>, ParentType, ContextType, RequireFields<QueryfindPetByIdArgs, 'id'>>;
     findPets?: Resolver<Maybe<Array<Maybe<ResolversTypes['Pet']>>>, ParentType, ContextType, RequireFields<QueryfindPetsArgs, never>>;
     listPets?: Resolver<Maybe<Array<Maybe<ResolversTypes['Pet']>>>, ParentType, ContextType, RequireFields<QuerylistPetsArgs, never>>;
     showPetById?: Resolver<Maybe<ResolversTypes['Pet']>, ParentType, ContextType, RequireFields<QueryshowPetByIdArgs, 'petId'>>;
+    authenticationSsoV4?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType, RequireFields<QueryauthenticationSsoV4Args, never>>;
     getTrue?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
 }>;
 export declare type MutationResolvers<ContextType = MeshContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
     addPet?: Resolver<Maybe<ResolversTypes['Pet']>, ParentType, ContextType, RequireFields<MutationaddPetArgs, 'newPetInput'>>;
     deletePet?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType, RequireFields<MutationdeletePetArgs, 'id'>>;
     createPets?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType>;
+    loginV5SsoAzure?: Resolver<Maybe<ResolversTypes['V5AuthSessionGet']>, ParentType, ContextType, RequireFields<MutationloginV5SsoAzureArgs, never>>;
 }>;
 export declare type PetResolvers<ContextType = MeshContext, ParentType extends ResolversParentTypes['Pet'] = ResolversParentTypes['Pet']> = ResolversObject<{
     id?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
@@ -187,11 +232,22 @@ export declare type PetResolvers<ContextType = MeshContext, ParentType extends R
 export interface JSONScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['JSON'], any> {
     name: 'JSON';
 }
+export declare type V5AuthSessionGetResolvers<ContextType = MeshContext, ParentType extends ResolversParentTypes['V5AuthSessionGet'] = ResolversParentTypes['V5AuthSessionGet']> = ResolversObject<{
+    correlationId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+    employers?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
+    firstLogin?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+    hasEmployers?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+    token?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+    userId?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+    userRole?: Resolver<Maybe<ResolversTypes['UserRole']>, ParentType, ContextType>;
+    __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
 export declare type Resolvers<ContextType = MeshContext> = ResolversObject<{
     Query?: QueryResolvers<ContextType>;
     Mutation?: MutationResolvers<ContextType>;
     Pet?: PetResolvers<ContextType>;
     JSON?: GraphQLScalarType;
+    V5AuthSessionGet?: V5AuthSessionGetResolvers<ContextType>;
 }>;
 import { MeshContext as BaseMeshContext, MeshInstance } from '@graphql-mesh/runtime';
 import { SelectionSetParamOrFactory } from '@graphql-mesh/types';
@@ -254,6 +310,25 @@ export declare type MutationPetStoreSdk = {
     }) => Promise<Mutation['createPets']>;
 };
 export declare type SubscriptionPetStoreSdk = {};
+export declare type QueryTestSdk = {
+    authenticationSsoV4: (params: {
+        root?: any;
+        args: QueryauthenticationSsoV4Args;
+        context: MeshContext;
+        info: GraphQLResolveInfo;
+        selectionSet?: SelectionSetParamOrFactory;
+    }) => Promise<Query['authenticationSsoV4']>;
+};
+export declare type MutationTestSdk = {
+    loginV5SsoAzure: (params: {
+        root?: any;
+        args: MutationloginV5SsoAzureArgs;
+        context: MeshContext;
+        info: GraphQLResolveInfo;
+        selectionSet?: SelectionSetParamOrFactory;
+    }) => Promise<Mutation['loginV5SsoAzure']>;
+};
+export declare type SubscriptionTestSdk = {};
 export declare type PetStoreExtendedContext = {
     ["PetStoreExtended"]: {
         Query: QueryPetStoreExtendedSdk;
@@ -268,7 +343,14 @@ export declare type PetStoreContext = {
         Subscription: SubscriptionPetStoreSdk;
     };
 };
-export declare type MeshContext = PetStoreExtendedContext & PetStoreContext & BaseMeshContext;
+export declare type TestContext = {
+    ["Test"]: {
+        Query: QueryTestSdk;
+        Mutation: MutationTestSdk;
+        Subscription: SubscriptionTestSdk;
+    };
+};
+export declare type MeshContext = PetStoreExtendedContext & PetStoreContext & TestContext & BaseMeshContext;
 import { GetMeshOptions } from '@graphql-mesh/runtime';
 import { YamlConfig } from '@graphql-mesh/types';
 import 'ts-node/register/transpile-only';

@@ -46,6 +46,16 @@ type Query {
     """The id of the pet to retrieve"""
     petId: String!
   ): Pet
+  """
+  ## Behavior
+  
+  Equivalent to GET /auth/sso/integration/azure
+  """
+  authenticationSsoV4(
+    acceptLanguage: String
+    """Correlation ID from the auth call."""
+    xCorrelationId: String
+  ): JSON
   getTrue: Boolean
 }
 
@@ -71,6 +81,18 @@ type Mutation {
   Equivalent to POST /pets
   """
   createPets: JSON
+  """
+  ## Behavior
+  TBD
+  
+  Equivalent to POST /auth/sso/integration/azure
+  """
+  loginV5SsoAzure(
+    acceptLanguage: String
+    authSsoIntegrationAzureInput: AuthSsoIntegrationAzureInput
+    """Correlation ID from the auth call."""
+    xCorrelationId: String
+  ): V5AuthSessionGet
 }
 
 type Pet {
@@ -86,3 +108,22 @@ input NewPetInput {
 
 """The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf)."""
 scalar JSON
+
+type V5AuthSessionGet {
+  correlationId: String
+  employers: [String]
+  firstLogin: Boolean
+  hasEmployers: Boolean
+  token: String
+  userId: Float
+  userRole: UserRole
+}
+
+enum UserRole {
+  ROLE_USER
+  ROLE_ADMIN
+}
+
+input AuthSsoIntegrationAzureInput {
+  clientSideToken: String!
+}

@@ -1,7 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getSdk = exports.getMeshSDK = exports.getBuiltMesh = exports.documentsInSDL = exports.getMeshOptions = exports.rawConfig = void 0;
+exports.getSdk = exports.getMeshSDK = exports.getBuiltMesh = exports.documentsInSDL = exports.getMeshOptions = exports.rawConfig = exports.UserRole = void 0;
 const tslib_1 = require("tslib");
+var UserRole;
+(function (UserRole) {
+    UserRole["ROLE_USER"] = "ROLE_USER";
+    UserRole["ROLE_ADMIN"] = "ROLE_ADMIN";
+})(UserRole = exports.UserRole || (exports.UserRole = {}));
 const graphql_1 = require("graphql");
 const runtime_1 = require("@graphql-mesh/runtime");
 const store_1 = require("@graphql-mesh/store");
@@ -14,6 +19,7 @@ const openapi_1 = tslib_1.__importDefault(require("@graphql-mesh/openapi"));
 const merger_stitching_1 = tslib_1.__importDefault(require("@graphql-mesh/merger-stitching"));
 const oas_schema_js_1 = tslib_1.__importDefault(require("./sources/PetStoreExtended/oas-schema.js"));
 const oas_schema_js_2 = tslib_1.__importDefault(require("./sources/PetStore/oas-schema.js"));
+const oas_schema_js_3 = tslib_1.__importDefault(require("./sources/Test/oas-schema.js"));
 const importedModules = {
     // @ts-ignore
     [`ts-node/register/transpile-only`]: transpile_only_1.default,
@@ -28,7 +34,9 @@ const importedModules = {
     // @ts-ignore
     [`.mesh/sources/PetStoreExtended/oas-schema.js`]: oas_schema_js_1.default,
     // @ts-ignore
-    [`.mesh/sources/PetStore/oas-schema.js`]: oas_schema_js_2.default
+    [`.mesh/sources/PetStore/oas-schema.js`]: oas_schema_js_2.default,
+    // @ts-ignore
+    [`.mesh/sources/Test/oas-schema.js`]: oas_schema_js_3.default
 };
 const baseDir = path_1.join(process_1.cwd(), '');
 const syncImportFn = (moduleId) => {
@@ -54,7 +62,7 @@ const utils_1 = require("@graphql-mesh/utils");
 const openapi_2 = tslib_1.__importDefault(require("@graphql-mesh/openapi"));
 const merger_stitching_2 = tslib_1.__importDefault(require("@graphql-mesh/merger-stitching"));
 const utils_2 = require("@graphql-mesh/utils");
-exports.rawConfig = { "sources": [{ "name": "PetStore", "handler": { "openapi": { "source": "./src/petstore.yaml" } } }, { "name": "PetStoreExtended", "handler": { "openapi": { "source": "./src/petstore-expanded.yaml" } } }], "require": ["ts-node/register/transpile-only"], "additionalTypeDefs": "extend type Query {\n  getTrue: Boolean\n}\n", "additionalResolvers": ["./dist/additional-resolvers.js"] };
+exports.rawConfig = { "sources": [{ "name": "PetStore", "handler": { "openapi": { "source": "./src/petstore.yaml", "baseUrl": "" } } }, { "name": "PetStoreExtended", "handler": { "openapi": { "source": "./src/petstore-expanded.yaml", "baseUrl": "" } } }, { "name": "Test", "handler": { "openapi": { "source": "./src/test.yaml", "baseUrl": "" } } }], "require": ["ts-node/register/transpile-only"], "additionalTypeDefs": "extend type Query {\n  getTrue: Boolean\n}\n", "additionalResolvers": ["./dist/additional-resolvers.js"] };
 function getMeshOptions() {
     const cache = new cache_inmemory_lru_2.default({
         ...(exports.rawConfig.cache || {}),
@@ -69,6 +77,7 @@ function getMeshOptions() {
     const transforms = [];
     const petStoreTransforms = [];
     const petStoreExtendedTransforms = [];
+    const testTransforms = [];
     const petStoreHandler = new openapi_2.default({
         name: exports.rawConfig.sources[0].name,
         config: exports.rawConfig.sources[0].handler.openapi,
@@ -89,6 +98,16 @@ function getMeshOptions() {
         logger: logger.child(exports.rawConfig.sources[1].name),
         importFn
     });
+    const testHandler = new openapi_2.default({
+        name: exports.rawConfig.sources[2].name,
+        config: exports.rawConfig.sources[2].handler.openapi,
+        baseDir,
+        cache,
+        pubsub,
+        store: sourcesStore.child(exports.rawConfig.sources[2].name),
+        logger: logger.child(exports.rawConfig.sources[2].name),
+        importFn
+    });
     sources.push({
         name: 'PetStore',
         handler: petStoreHandler,
@@ -98,6 +117,11 @@ function getMeshOptions() {
         name: 'PetStoreExtended',
         handler: petStoreExtendedHandler,
         transforms: petStoreExtendedTransforms
+    });
+    sources.push({
+        name: 'Test',
+        handler: testHandler,
+        transforms: testTransforms
     });
     const merger = new merger_stitching_2.default({
         cache,

@@ -4,11 +4,18 @@ sources:
       openapi:
         # source: https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/examples/v3.0/petstore.yaml
         source: ./src/petstore.yaml
+        baseUrl: '${API_URL}'
   - name: PetStoreExtended
     handler:
       openapi:
         # source: https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/examples/v3.0/petstore-expanded.yaml
         source: ./src/petstore-expanded.yaml
+        baseUrl: '${API_URL}'
+  - name: Test
+    handler:
+      openapi:
+        source: ./src/test.yaml
+        baseUrl: '${API_URL}'
 require:
   - ts-node/register/transpile-only
 additionalTypeDefs: |
