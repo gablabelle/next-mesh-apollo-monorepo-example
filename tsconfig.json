@@ -22,5 +22,5 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true
   },
-  "exclude": ["**/node_modules/**", "**/dist/**/*.d.ts", "**/lib/**/*.d.ts"]
+  "exclude": ["**/node_modules/**", "**/dist/**/*", "**/lib/**/*"]
 }

@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import { EndpointLocation } from '@monorepo/ui';
 import styles from '../styles/Home.module.css';
 
 export default function Home() {
@@ -10,9 +11,7 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>
-          GraphQL endpoint is located <a href="/api/graphql">here</a>
-        </h1>
+        <EndpointLocation />
       </main>
     </div>
   );

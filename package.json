@@ -16,7 +16,8 @@
     "postinstall": "yarn workspace @monorepo/graphql-server tsc -b --clean",
     "client": "yarn workspace @monorepo/next-app dev",
     "server": "yarn workspace @monorepo/graphql-server dev",
-    "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
+    "ui": "yarn workspace @monorepo/ui dev",
+    "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\" \"yarn ui\"",
     "clean": "rimraf **/dist && rimraf **/.next && rimraf **/node_modules"
   },
   "dependencies": {
