@@ -14,10 +14,13 @@
   ],
   "scripts": {
     "postinstall": "yarn workspace @monorepo/graphql-server tsc -b --clean",
-    "client": "yarn workspace @monorepo/next-app dev",
+    "next": "yarn workspace @monorepo/next-app dev",
+    "cra": "yarn workspace @monorepo/cra-app dev",
     "server": "yarn workspace @monorepo/graphql-server dev",
     "ui": "yarn workspace @monorepo/ui dev",
-    "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\" \"yarn ui\"",
+    "dev": "yarn dev-next",
+    "dev-next": "concurrently --kill-others-on-fail \"yarn server\" \"yarn ui\" \"yarn next\"",
+    "dev-cra": "concurrently --kill-others-on-fail \"yarn server\" \"yarn ui\" \"yarn cra\"",
     "clean": "rimraf **/dist && rimraf **/.next && rimraf **/node_modules"
   },
   "dependencies": {
